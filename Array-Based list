@@ -1,0 +1,133 @@
+#include <iostream>
+using namespace std;
+template<class type>
+class ArrayBasedList {
+private:
+    type * list;
+    int length , maxSize;
+public:
+    ArrayBasedList();
+    ArrayBasedList(int size);
+    bool isEmpty();
+    bool isFull();
+    int listSize();
+    int listMaxSize();
+    void insert(type element);
+    void insertAt(type element , int index);
+    void replaceAt(type element , int index);
+    void removeAt(int index);
+    type retrieve(int index);
+    bool isIemEqual(type element , int index);
+    void print();
+    void clear();
+};
+
+template<class type>
+ArrayBasedList<type>::ArrayBasedList() {
+    length = 0;
+    maxSize = 10;
+    list = new type[maxSize];
+}
+
+template<class type>
+ArrayBasedList<type>::ArrayBasedList(int size) {
+    length = 0;
+    maxSize = size;
+    list = new type[maxSize];
+}
+
+template<class type>
+void ArrayBasedList<type>::insert(type element) {
+    if (isFull())
+        cout<<"list is full\n";
+    else
+    {
+        list[length] = element;
+        ++length;
+    }
+}
+
+template<class type>
+bool ArrayBasedList<type>::isEmpty() {
+    return length == 0;
+}
+
+template<class type>
+bool ArrayBasedList<type>::isFull() {
+    return length >= (maxSize);
+}
+
+template<class type>
+int ArrayBasedList<type>::listSize() {
+    return length;
+}
+
+template<class type>
+int ArrayBasedList<type>::listMaxSize() {
+    return maxSize;
+}
+
+template<class type>
+void ArrayBasedList<type>::print() {
+    for (int i = 0; i < length; ++i) {
+        cout<<list[i]<<" ";
+    }
+    cout<<endl;
+}
+
+template<class type>
+void ArrayBasedList<type>::insertAt(type element, int index) { // user enter index starting from 1
+    if(isFull())
+        cout<<"list is full\n";
+    if (index < 0 || index >= maxSize)
+        cout<<"invalid index\n";
+    else
+    {
+        for (int i = length; i >= index ; --i) {
+            list[i] = list[i-1];
+        }
+        list[index-1] = element;
+        length++;
+    }
+
+}
+
+template<class type>
+type ArrayBasedList<type>::retrieve(int index) { //user inter index from 1
+    if (isEmpty()) { cout << "list is empty\n"; }
+    else if (index < 0 || index >= maxSize) { cout << "invalid index\n"; }
+
+    else { return list[index - 1]; } // There is a problem with the output here when user enter invalid index
+
+}
+
+template<class type>
+void ArrayBasedList<type>::removeAt(int index) { //user inter index from 1
+    if (isEmpty())
+        cout<<"list is empty\n";
+    else if (index < 0 || index >= maxSize)
+        cout<<"invalid index\n";
+    else
+    {
+        for (int i = index -1; i < length ; ++i) {
+            list[i] = list[i+1];
+        }
+        length--;
+    }
+}
+
+template<class type>
+bool ArrayBasedList<type>::isIemEqual(type element, int index) { //user inter index from 1
+    return list[index-1] == element;
+}
+
+template<class type>
+void ArrayBasedList<type>::clear() {
+    delete [] list;
+    length =0;
+}
+
+template<class type>
+void ArrayBasedList<type>::replaceAt(type element, int index) { //user inter index from 1
+    list[index-1] = element;
+}

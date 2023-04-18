@@ -1,0 +1,338 @@
+template<class type>
+class node
+{
+public:
+    type data;
+    node<type> * next;
+    node<type> * prev;
+    node()
+    {
+        next = NULL;
+        prev = NULL;
+    }
+};
+template<class type>
+class doublyLinkedList
+{
+private:
+    node<type> * head;
+    node<type> * tail;
+    int size;
+public:
+    doublyLinkedList();
+    void insertAtHead(type val);
+    void insertAtTail(type val);
+    void insertAt(type val , int index);
+    void insertAfter(node<type> * prevNode , type val);
+    void removeAtHead();
+    void removeAtTail();
+    void removeAt(int index);
+    void replaceAt(type element ,int index);
+    void reverse();
+    void forwardTraversal();
+    void backTraversal();
+    void clear();
+    int doubleLinkedListSize();
+    bool isEmpty();
+    bool isExist(type val );
+    bool isElementEqual(type val ,int index);
+    type retrieveAt(int index);
+};
+
+template<class type>
+doublyLinkedList<type>::doublyLinkedList() {
+    head = tail = NULL;
+    size = 0;
+}
+
+template<class type>
+bool doublyLinkedList<type>::isEmpty() {
+    return head == NULL;
+}
+
+template<class type>
+void doublyLinkedList<type>::insertAtHead(type val) {
+    size++;
+    node<type> * newNode = new node<type>;
+    newNode->data = val;
+        if (isEmpty())
+            head = tail = newNode;
+        else
+        {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+}
+
+template<class type>
+void doublyLinkedList<type>::insertAtTail(type val) {
+    if (isEmpty())
+        insertAtHead(val);
+    else
+    {
+        size++;
+        node<type> * newNode = new node<type>;
+        newNode->data = val;
+        node<type> * tmp = head;
+        while (tmp != tail)
+        {
+            tmp = tmp->next;
+        }
+        newNode->prev = tmp;
+        tmp->next = newNode;
+        tail = newNode;
+    }
+
+}
+
+template<class type>
+void doublyLinkedList<type>::forwardTraversal() {
+    node<type> * tmp = head;
+    while (tmp != NULL)
+    {
+        cout<<tmp->data<<" ";
+        tmp = tmp->next;
+    }
+    cout<<endl;
+}
+
+template<class type>
+int doublyLinkedList<type>::doubleLinkedListSize() {
+    return size;
+}
+
+template<class type>
+void doublyLinkedList<type>::insertAt(type val, int index) {
+    if (index == 1)
+        insertAtHead(val);
+    else if (index == size)
+        insertAtTail(val);
+    else if (index > size || index <= 0)
+        cout<<"invalid index\n";
+    else
+    {
+        node<type> * newNode = new node<type>();
+        newNode->data = val;
+        node<type> * tmp = head;
+        int i =1;
+        while (i < index-1)
+        {
+            tmp =tmp->next;
+            i++;
+        }
+        newNode->next = tmp->next ;
+        newNode->prev = tmp;
+        tmp->next = newNode;
+        tmp->next->prev = newNode;
+        size++;
+    }
+}
+
+template<class type>
+void doublyLinkedList<type>::insertAfter(node<type> *prevNode, type val) {
+    node<type> * newNode = new node<type>();
+    newNode->data = val;
+    node<type> * tmp = head;
+    while (tmp->next->next != prevNode)
+    {
+        tmp = tmp->next;
+    }
+    newNode->next = tmp->next ;
+    newNode->prev = tmp;
+    tmp->next = newNode;
+    tmp->next->prev = newNode;
+    size++;
+
+}
+
+template<class type>
+void doublyLinkedList<type>::removeAtHead() {
+    if (isEmpty())
+        cout<<"list is empty\n";
+    else if (head == tail)
+    {
+        delete head;
+        head = tail = NULL;
+        size--;
+    }
+    else
+    {
+        node<type> * tmp = head;
+        head = head->next;
+        delete tmp;
+        size--;
+    }
+}
+
+template<class type>
+void doublyLinkedList<type>::removeAtTail() {
+    if (isEmpty())
+        cout<<"list is empty\n";
+    else if (head == tail)
+    {
+        delete head;
+        delete tail;
+        head = tail = NULL;
+        size--;
+    }
+    else
+    {
+        node<type> * tmp = tail;
+        tail = tail->prev;
+        tail->next = NULL;
+        delete tmp;
+        size--;
+    }
+}
+
+template<class type>
+void doublyLinkedList<type>::removeAt(int index) {
+    if (isEmpty())
+        cout<<"list is empty\n";
+    else if (index == 1)
+        removeAtHead();
+    else if (index == size)
+        removeAtTail();
+    else if (index > size || index <0)
+        cout<<"invalid index\n";
+    else
+    {
+        size--;
+        node<type> * tmp = head;
+        int i =1;
+        while (tmp != NULL && i != index)
+        {
+            tmp = tmp->next;
+            i++;
+        }
+        tmp->prev->next = tmp->next;
+        tmp->next->prev = tmp->prev;
+        delete tmp;
+    }
+}
+
+template<class type>
+type doublyLinkedList<type>::retrieveAt(int index) {
+    if (isEmpty() || index < 0 || index > size)
+        cout<<"invalid index\n";
+    else
+    {
+        if (index == 1)
+            return head->data;
+        else if (index == size)
+            return tail->data;
+        else
+        {
+            node<type> * tmp = head;
+            int i = 1;
+            while (i != index-1)
+            {
+                tmp = tmp->next;
+                i++;
+            }
+            return tmp->next->data;
+        }
+
+    }
+}
+
+template<class type>
+void doublyLinkedList<type>::replaceAt(type val, int index) {
+    if (isEmpty() || index < 0 || index > size)
+        cout<<"list is empty\n";
+    else
+    {
+        if (index == 1)
+            head->data = val;
+        else if (index == size)
+            tail->data = val;
+        else
+        {
+            node<type> * tmp = head;
+            int i = 1;
+            while (i != index-1)
+            {
+                tmp = tmp->next;
+                i++;
+            }
+            tmp->next->data = val ;
+        }
+    }
+}
+
+template<class type>
+bool doublyLinkedList<type>::isExist(type val) {
+    bool check = false;
+    node<type> * tmp = head;
+    while (tmp != NULL)
+    {
+        if (tmp->data == val)
+        {
+            check = true;
+            break;
+        }
+        else
+            tmp = tmp->next;
+    }
+    return check;
+}
+
+template<class type>
+bool doublyLinkedList<type>::isElementEqual(type val, int index) {
+        if (isEmpty() || index < 0 || index > size)
+        return false;
+    else
+    {
+        if (index == 1)
+        {
+            return head->data == val;
+        }
+        else
+        {
+            node<type> * tmp = head;
+            int i = 1;
+            while (i != index-1)
+            {
+                tmp = tmp->next;
+                i++;
+            }
+            return tmp->next->data == val;
+
+        }
+    }
+
+}
+
+template<class type>
+void doublyLinkedList<type>::clear() {
+    if (isEmpty())
+        cout<<"list is empty\n";
+    else
+    {
+        while (head != NULL)
+            removeAtHead();
+    }
+}
+
+template<class type>
+void doublyLinkedList<type>::reverse() {
+    node<type> *temp = NULL;
+    node<type> *current = head;
+    while (current != NULL){
+        temp = current->next;
+        current->next = current->prev;
+        current->prev = temp;
+        current = current->prev;
+    }
+    temp = head;
+    head = tail;
+    tail = temp;
+}
+
+template<class type>
+void doublyLinkedList<type>::backTraversal() {
+    reverse();
+    forwardTraversal();
+}
+

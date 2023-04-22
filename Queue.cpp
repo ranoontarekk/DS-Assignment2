@@ -30,7 +30,7 @@ public:
         front = (front+1);
         count--;
     }
-    T Frist(){
+    T First(){
         if(count == 0){
             cout<<"Queue is empty"<<endl;
             return 0;
@@ -44,8 +44,9 @@ public:
         return count;
     }
     void clear(){
+        //clear the queue
         count = 0;
-        Rear = -1 , front = -1;
+        Rear = -1 , front = -1 ;
     }
     void print(){
         for(int i = front+1 ; i <= Rear ; i++){
@@ -53,23 +54,12 @@ public:
         }
         cout<<endl;
     }
+    T top(){
+        return queue[Rear];
+    }
 };
 
 
 
 
-int main()
-{
-Queue<int> Q1;
-Q1.enqueue(1);
-Q1.enqueue(2);
-Q1.enqueue(3);
-Q1.enqueue(4);
-Q1.enqueue(5);
-Q1.dequeue();
-Q1.print();
 
-
-
-    return 0;
-}

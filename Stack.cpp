@@ -43,8 +43,14 @@ public:
         size = 0;
         top = -1 ;
     }
-    void print(){
+    void printFromToptoBottom(){
         for (int i = size -1 ; i >=0; --i) {
+            cout << stack[i] << " ";
+        }
+        cout << endl;
+    }
+    void printFromBottomtoTop(){
+        for (int i = 0 ; i < size ; ++i) {
             cout << stack[i] << " ";
         }
         cout << endl;
@@ -53,15 +59,3 @@ public:
 
 
 
-int main()
-{
-Stack<int> S1;
-S1.push(5);
-S1.push(10);
-S1.push(50);
-S1.push(100);
-S1.print();
-
-
-    return 0;
-}

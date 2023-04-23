@@ -2,13 +2,13 @@
 #define MAX 100
 using namespace std;
 template <class T>
-#define MAX 100
 class Queue{
+    public:
     int Rear;
     int front;
     int count;
     T queue[MAX];
-public:
+
     Queue(){
         count = 0 ;
         Rear = -1 , front = -1;

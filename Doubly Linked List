@@ -1,3 +1,7 @@
+#ifndef UNTITLED19_DOUBLYLINKEDLIST_H
+#define UNTITLED19_DOUBLYLINKEDLIST_H
+#include <iostream>
+using namespace std;
 template<class type>
 class node
 {
@@ -37,6 +41,7 @@ public:
     bool isExist(type val );
     bool isElementEqual(type val ,int index);
     type retrieveAt(int index);
+    void swap(int firstItemIdx, int secondItemIdx);
 };
 
 template<class type>
@@ -336,3 +341,50 @@ void doublyLinkedList<type>::backTraversal() {
     forwardTraversal();
 }
 
+template<class type>
+void doublyLinkedList<type>::swap(int firstItemIdx, int secondItemIdx) {
+    if (firstItemIdx >= 0 && firstItemIdx < doubleLinkedListSize() && secondItemIdx >= 0 && secondItemIdx < doubleLinkedListSize())
+    {
+        node<type>* first = head;
+        for (int i = 0; i < firstItemIdx; i++)
+        {
+            first = first->next;
+        }
+        node<type>* second = head;
+        for (int i = 0; i < secondItemIdx; i++)
+        {
+            second = second->next;
+        }
+        if (first == NULL || second == NULL)
+        {
+            return;
+        }
+        if (first->prev != NULL)
+        {
+            first->prev->next = second;
+        }
+        else
+        {
+            head = second;
+        }
+        if (second->prev != NULL)
+        {
+            second->prev->next = first;
+        }
+        else
+        {
+            head = first;
+        }
+        node<type>* temp = first->next;
+        first->next = second->next;
+        second->next = temp;
+
+    }
+    else
+    {
+        throw std::out_of_range("Index is out of range!");
+    }
+}
+
+
+#endif //UNTITLED19_DOUBLYLINKEDLIST_H

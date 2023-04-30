@@ -5,15 +5,20 @@ using namespace std;
 #define MAX 100
 template <class T>
 
-void Sort(Queue<T> &q){
-    for(int i = 0 ; i < q.QueueSize() ; i++){
-        for(int j = i+1 ; j < q.QueueSize() ; j++){
-            if(q.queue[i] > q.queue[j]){
-               swap (q.queue[i],q.queue[j]);
-            }
+void sortQueue(Queue<T>& q) {
+    Queue<T> temp;
+    while (!q.isEmpty()) {
+        T element = q.dequeue();
+        while (!temp.isEmpty() && element > temp.front()) {
+            q.enqueue(temp.dequeue());
         }
+        temp.enqueue(element);
+    }
+    while (!temp.isEmpty()) {
+        q.enqueue(temp.dequeue());
     }
 }
+
 
 
 
